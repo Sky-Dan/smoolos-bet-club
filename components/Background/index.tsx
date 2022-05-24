@@ -1,13 +1,9 @@
-import { FC, ReactNode } from "react"
+import { FC, ReactNode } from 'react';
 
 type BackgroundProps = {
-  children: ReactNode
-}
+  children: ReactNode;
+};
 
 export const Background: FC<BackgroundProps> = ({ children }) => {
-  return (
-    <div className="bg-neutral-900">
-      {children}
-    </div>
-  )
-}
+  return <div className="bg-neutral-900">{children}</div>;
+};

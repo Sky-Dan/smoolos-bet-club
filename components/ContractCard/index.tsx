@@ -15,7 +15,9 @@ interface IContractCardProps {
 export const ContractCard = forwardRef<HTMLDivElement, IContractCardProps>(
   ({ totalBalance }, ref) => {
     const [depositAmount, setDepositAmount] = useState('0');
-    const [withdrawAmount, setWithdrawAmount] = useState(0);
+    const [loading, setLoading] = useState(false);
+
+    // const [withdrawAmount, setWithdrawAmount] = useState(0);
 
     const { address } = useWeb3();
 
@@ -25,9 +27,9 @@ export const ContractCard = forwardRef<HTMLDivElement, IContractCardProps>(
       setDepositAmount(event.target.value);
     };
 
-    const handleWithdraw = (event: any) => {
-      setWithdrawAmount(event.target.value);
-    };
+    // const handleWithdraw = (event: any) => {
+    //   setWithdrawAmount(event.target.value);
+    // };
 
     return (
       <div
@@ -62,7 +64,7 @@ export const ContractCard = forwardRef<HTMLDivElement, IContractCardProps>(
               onClick={() => deposit(depositAmount)}
             >
               <span className="font-semibold">Deposit MATIC</span>
-              {1 === 2 && (
+              {loading && (
                 <AiOutlineLoading3Quarters
                   className="animate-spin"
                   size="1.2rem"
@@ -91,7 +93,7 @@ export const ContractCard = forwardRef<HTMLDivElement, IContractCardProps>(
                 }}
               >
                 <span className="font-semibold">Withdraw MATIC</span>
-                {1 === 2 && (
+                {loading && (
                   <AiOutlineLoading3Quarters
                     className="animate-spin"
                     size="1.2rem"
