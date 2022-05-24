@@ -5,6 +5,7 @@ interface ICustomLinkProps {
   href: string;
   className?: string;
   rest?: any;
+  children?: any;
 }
 
 export const CustomLink: FC<ICustomLinkProps> = ({ href, ...rest }) => {
