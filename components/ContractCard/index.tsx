@@ -1,7 +1,7 @@
 import { useWeb3 } from '@3rdweb/hooks';
 import { SOMOOLOS_CLUB_ADDRESS } from 'config';
 import { useSmoolosClub } from 'hooks/useSmoolosClub';
-import { forwardRef, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
@@ -9,23 +9,35 @@ import { FiMinusSquare, FiPlusSquare } from 'react-icons/fi';
 
 interface IContractCardProps {
   totalBalance: any;
-  ref: any;
+  styles?: any;
+  ref?: any;
 }
 
 export const ContractCard = forwardRef<HTMLDivElement, IContractCardProps>(
-  ({ totalBalance }, ref) => {
+  ({ totalBalance, styles }, ref) => {
     const [depositAmount, setDepositAmount] = useState('0');
     const [loading, setLoading] = useState(false);
+    const [myBalance, setMyBalance] = useState('0');
 
     // const [withdrawAmount, setWithdrawAmount] = useState(0);
 
     const { address } = useWeb3();
 
-    const { deposit, withdraw, owner } = useSmoolosClub();
+    const { deposit, withdraw, owner, getMyBalance } = useSmoolosClub();
 
     const handleDeposit = (event: any) => {
       setDepositAmount(event.target.value);
     };
+
+    const handleGetMyBalance = useCallback(async () => {
+      const myBalance = await getMyBalance(address || '');
+
+      setMyBalance(myBalance || '');
+    }, [address]);
+
+    useEffect(() => {
+      handleGetMyBalance();
+    }, [handleGetMyBalance]);
 
     // const handleWithdraw = (event: any) => {
     //   setWithdrawAmount(event.target.value);
@@ -34,6 +46,7 @@ export const ContractCard = forwardRef<HTMLDivElement, IContractCardProps>(
     return (
       <div
         ref={ref}
+        style={styles}
         className="flex flex-col max-w-md gap-6 p-5 mx-auto tracking-wide bg-black border rounded-md shadow-2xl xs:rotate-0 -rotate-2 border-neutral-600 font-audiowide"
       >
         <div className="flex flex-wrap justify-between">
@@ -45,7 +58,7 @@ export const ContractCard = forwardRef<HTMLDivElement, IContractCardProps>(
               <span className="text-white ">CONTRACT</span>
             </button>
           </CopyToClipboard>
-          <span className="text-white ">SML {totalBalance} MATIC</span>
+          <span className="text-white ">MY BALANCE {myBalance} MATIC</span>
         </div>
         <div>
           <label className="block mb-2 text-xs font-bold text-neutral-600">

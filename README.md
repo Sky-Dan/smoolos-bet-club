@@ -1,16 +1,6 @@
-<h1 align="center">Welcome to DefiBank 👋</h1>
-<p>
-  <img alt="Version" src="https://img.shields.io/badge/version-0.1.0-blue.svg?cacheSeconds=2592000" />
-  <a href="https://twitter.com/pggedeon" target="_blank">
-    <img alt="Twitter: pggedeon" src="https://img.shields.io/twitter/follow/pggedeon.svg?style=social" />
-  </a>
-</p>
+<h1 align="center">Welcome to SmoolosClub 👋</h1>
 
 > Smoolos Club is a dapp created by vertsix.com
-
-<a href="https://defibank.vercel.app/" target="_blank">
-    <img alt="DefiBank: Landing" src="public/assets/LandingPage.png" />
-</a>
 
 ### ✨ [Demo](https://defibank.vercel.app/)
 

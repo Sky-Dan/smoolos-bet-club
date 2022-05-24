@@ -10,12 +10,16 @@ import { useSmoolosNFT } from 'hooks/useSmoolosNFT';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { BsArrowUpRight, BsRecordCircle } from 'react-icons/bs';
 
-const Home: NextPage = () => {
-  const contractCardRef = useRef() as React.MutableRefObject<HTMLDivElement>;
+const styles = {
+  transform: 'scale(1)',
+  transition: 'transform 0.6s ease-in-out border 0.3s ease-in-out',
+  border: '1px solid #525252',
+};
 
+const Home: NextPage = () => {
   const { balance, totalHolders } = useSmoolosClub();
   const { getBalanceOf, getOwnerOf, totalSupply, baseURI } = useSmoolosNFT();
 
@@ -56,8 +60,6 @@ const Home: NextPage = () => {
   useEffect(() => {
     handleGetBalanceOf();
   }, [handleGetBalanceOf]);
-
-  console.log(nfts);
 
   return (
     <>
@@ -102,7 +104,7 @@ const Home: NextPage = () => {
             </a>
           </div>
           <div className="z-10 flex flex-col items-center gap-2">
-            <ContractCard ref={contractCardRef} totalBalance={balance} />
+            <ContractCard styles={styles} totalBalance={balance} />
             {/* <motion.div
               className="absolute left-0 right-0 flex gap-24 mx-auto top-4"
               variants={sideAnimationRightVariants}

@@ -1,5 +1,5 @@
 import 'styles/globals.css';
-import { ThirdwebWeb3Provider } from '@3rdweb/hooks';
+import { ThirdwebWeb3Provider, useWeb3 } from '@3rdweb/hooks';
 import { CHAIN_ID } from 'config';
 import { PageLayout } from 'layouts/PageLayout';
 import type { AppProps } from 'next/app';
@@ -7,6 +7,8 @@ import { Toaster } from 'react-hot-toast';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { addNetowrkMetadata } from 'utils/constants';
+import { useCallback, useEffect, useState } from 'react';
+import { useSmoolosNFT } from 'hooks/useSmoolosNFT';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,6 +25,28 @@ const supportedChainIds = [CHAIN_ID];
 // In this case, we support Metamask which is an "injected wallet".
 const connectors = {
   injected: {},
+};
+
+const check = () => {
+  const [ownerOfNFT, setOwnerOfNFT] = useState(false);
+
+  const { address } = useWeb3();
+
+  const { getBalanceOf } = useSmoolosNFT();
+
+  const handleGetBalanceOf = useCallback(async () => {
+    const balanceOf = await getBalanceOf(address || '');
+
+    setOwnerOfNFT(balanceOf > 0);
+  }, [address]);
+
+  useEffect(() => {
+    handleGetBalanceOf();
+  }, [handleGetBalanceOf]);
+
+  console.log(ownerOfNFT);
+
+  return <></>;
 };
 
 function MyApp({ Component, pageProps }: AppProps) {

@@ -2,14 +2,16 @@ import { SOMOOLOS_CLUB_ADDRESS } from 'config';
 import { Contract, ethers } from 'ethers';
 import SmoolosClubContract from 'hardhat/artifacts/contracts/SmoolosClub.sol/SmoolosClub.json';
 import { useContract } from 'hooks/useContract';
+import { useToast } from 'hooks/useToast';
 import { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
 
 export const useSmoolosClub = () => {
   const { contract: smoolosClub } = useContract<Contract>({
     contractAddress: SOMOOLOS_CLUB_ADDRESS,
     contractJson: SmoolosClubContract,
   });
+
+  const { toastError } = useToast();
 
   const [totalHolders, setTotalHolders] = useState('0');
   const [balance, setBalance] = useState('0');
@@ -24,12 +26,14 @@ export const useSmoolosClub = () => {
       });
       return deposit;
     } catch (error: any) {
-      console.log(error);
+      console.log(error.data);
 
-      if (error.error?.data) {
-        toast.error(error.error.data.message);
+      if (error?.data) {
+        toastError({ msg: error.data.message });
+      } else if (error.error?.data) {
+        toastError({ msg: error.error.data.message });
       } else {
-        toast.error(error.message);
+        toastError({ msg: error.message });
       }
     }
   };
@@ -43,10 +47,12 @@ export const useSmoolosClub = () => {
     } catch (error: any) {
       console.log(error);
 
-      if (error.error?.data) {
-        toast.error(error.error.data.message);
+      if (error?.data) {
+        toastError({ msg: error.data.message });
+      } else if (error.error?.data) {
+        toastError({ msg: error.error.data.message });
       } else {
-        toast.error(error.message);
+        toastError({ msg: error.message });
       }
     }
   };
@@ -59,10 +65,12 @@ export const useSmoolosClub = () => {
 
       setOnwer(owner);
     } catch (error: any) {
-      if (error.error?.data) {
-        toast.error(error.error.data.message);
+      if (error?.data) {
+        toastError({ msg: error.data.message });
+      } else if (error.error?.data) {
+        toastError({ msg: error.error.data.message });
       } else {
-        toast.error(error.message);
+        toastError({ msg: error.message });
       }
     }
   };
@@ -75,10 +83,30 @@ export const useSmoolosClub = () => {
 
       setBalance(ethers.utils.formatEther(balance));
     } catch (error: any) {
-      if (error.error?.data) {
-        toast.error(error.error.data.message);
+      if (error?.data) {
+        toastError({ msg: error.data.message });
+      } else if (error.error?.data) {
+        toastError({ msg: error.error.data.message });
       } else {
-        toast.error(error.message);
+        toastError({ msg: error.message });
+      }
+    }
+  };
+
+  const getMyBalance = async (address: string) => {
+    if (!smoolosClub) return;
+
+    try {
+      const myBalance = await smoolosClub.balances(address);
+
+      return ethers.utils.formatEther(myBalance);
+    } catch (error: any) {
+      if (error?.data) {
+        toastError({ msg: error.data.message });
+      } else if (error.error?.data) {
+        toastError({ msg: error.error.data.message });
+      } else {
+        toastError({ msg: error.message });
       }
     }
   };
@@ -91,10 +119,12 @@ export const useSmoolosClub = () => {
 
       setTotalHolders(totalHolders.toNumber());
     } catch (error: any) {
-      if (error.error?.data) {
-        toast.error(error.error.data.message);
+      if (error?.data) {
+        toastError({ msg: error.data.message });
+      } else if (error.error?.data) {
+        toastError({ msg: error.error.data.message });
       } else {
-        toast.error(error.message);
+        toastError({ msg: error.message });
       }
     }
   };
@@ -124,6 +154,7 @@ export const useSmoolosClub = () => {
   }, [getOwner]);
 
   return {
+    getMyBalance,
     deposit,
     withdraw,
     totalHolders,
