@@ -1,20 +1,23 @@
-import { useWeb3 } from "@3rdweb/hooks"
-import { ethers, Contract } from "ethers"
-import { useEffect, useState } from "react"
+import { useWeb3 } from '@3rdweb/hooks';
+import { ethers, Contract } from 'ethers';
+import { useEffect, useState } from 'react';
 
 interface IuseContract {
-  contractAddress: string | undefined,
-  contractJson: any
+  contractAddress: string | undefined;
+  contractJson: any;
 }
 
 interface IContract<T> {
-  contract: T | Contract | undefined,
+  contract: T | Contract | undefined;
 }
 
-export const useContract = <T extends Contract>({ contractAddress, contractJson }: IuseContract): IContract<T> => {
-  const { provider } = useWeb3()
-  const signer = provider?.getSigner()
-  const [contract, setContract] = useState<T | Contract>()
+export const useContract = <T extends Contract>({
+  contractAddress,
+  contractJson,
+}: IuseContract): IContract<T> => {
+  const { provider } = useWeb3();
+  const signer = provider?.getSigner();
+  const [contract, setContract] = useState<T | Contract>();
 
   useEffect(() => {
     if (provider && contractAddress) {
@@ -22,10 +25,10 @@ export const useContract = <T extends Contract>({ contractAddress, contractJson 
         contractAddress,
         contractJson.abi,
         signer
-      )
-      setContract(contract)
+      );
+      setContract(contract);
     }
-  }, [provider])
+  }, [provider]);
 
-  return { contract }
-}
+  return { contract };
+};

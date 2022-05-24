@@ -1,22 +1,22 @@
-import { Background } from "components/Background"
-import { CustomLink } from "components/CustomLink"
-import { Footer } from "components/Footer"
-import { Logo } from "components/Logo"
-import { Wallet } from "components/Wallet"
-import { FC, ReactNode, useState } from "react"
-import { HiMenu } from "react-icons/hi"
-import Popup from "reactjs-popup"
+import { Background } from 'components/Background';
+import { CustomLink } from 'components/CustomLink';
+import { Footer } from 'components/Footer';
+import { Logo } from 'components/Logo';
+import { Wallet } from 'components/Wallet';
+import { FC, ReactNode, useState } from 'react';
+import { HiMenu } from 'react-icons/hi';
+import Popup from 'reactjs-popup';
 
 type PageLayoutProps = {
-  children: ReactNode
-}
+  children: ReactNode;
+};
 
 export const PageLayout: FC<PageLayoutProps> = ({ children }) => {
-  const [isOpen, setOpen] = useState(false)
+  const [isOpen, setOpen] = useState(false);
 
   const closeModal = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
 
   return (
     <Background>
@@ -39,7 +39,11 @@ export const PageLayout: FC<PageLayoutProps> = ({ children }) => {
               </button>
             }
             modal
-            overlayStyle={{ marginTop: "60px", backgroundColor: "rgba(23,23,23,0.95)" }} >
+            overlayStyle={{
+              marginTop: '60px',
+              backgroundColor: 'rgba(23,23,23,0.95)',
+            }}
+          >
             <div className="flex flex-col w-screen h-screen gap-8 place-content-center">
               <div className="flex justify-center gap-8">
                 <Wallet />
@@ -47,13 +51,11 @@ export const PageLayout: FC<PageLayoutProps> = ({ children }) => {
             </div>
           </Popup>
         </header>
-        <main className="flex flex-col grow">
-          {children}
-        </main>
+        <main className="flex flex-col grow">{children}</main>
         <footer className="flex justify-center p-4 rounded-t-md">
           <Footer />
         </footer>
       </div>
     </Background>
-  )
-}
+  );
+};

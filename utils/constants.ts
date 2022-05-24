@@ -1,25 +1,25 @@
-import { CHAIN_ID, RINKEBY_CHAIN_ID } from "config"
-import { AddEthereumChainParameter } from "@3rdweb/hooks"
+import { AddEthereumChainParameter } from '@3rdweb/hooks';
+import { CHAIN_ID, POLYGON_CHAIN_ID } from 'config';
 
 // Chains & Icons -> https://github.com/ethereum-lists/chains/tree/master/_data
 
 interface t {
-  [key: number]: AddEthereumChainParameter
+  [key: number]: AddEthereumChainParameter;
 }
 
 export const addNetowrkMetadata: t = {
-  [RINKEBY_CHAIN_ID]: {
+  [POLYGON_CHAIN_ID]: {
     chainId: `0x${CHAIN_ID.toString(16)}`,
-    chainName: "Rinkeby",
+    chainName: 'Polygon Mainnet',
     nativeCurrency: {
-      name: "Rinkeby Ether",
-      symbol: "ETH",
-      decimals: 18
+      name: 'Polygon Matic',
+      symbol: 'MATIC',
+      decimals: 18,
     },
-    rpcUrls: ["https://rinkeby.infura.io/v3/"],
-    blockExplorerUrls: ["https://rinkeby.etherscan.io"],
-    iconUrls: [""]
-  }
-}
+    rpcUrls: ['https://polygon-rpc.com/'],
+    blockExplorerUrls: ['https://polygonscan.com/'],
+    iconUrls: [''],
+  },
+};
 
-export const networkMetadata = {}
+export const networkMetadata = {};
