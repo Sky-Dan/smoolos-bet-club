@@ -7,7 +7,7 @@ export default function Document() {
         <meta name="title" content="DefiBank" />
         <meta
           name="description"
-          content="Defi Bank is a dapp created for ethereum 101 course of cadena.dev"
+          content="Smoolos Club is a dapp created by vertsix.com"
         />
 
         <meta property="og:type" content="website" />
@@ -15,7 +15,7 @@ export default function Document() {
         <meta property="og:title" content="DefiBank" />
         <meta
           property="og:description"
-          content="Defi Bank is a dapp created for ethereum 101 course of cadena.dev"
+          content="Smoolos Club is a dapp created by vertsix.com"
         />
         <meta
           property="og:image"
@@ -27,7 +27,7 @@ export default function Document() {
         <meta property="twitter:title" content="DefiBank" />
         <meta
           property="twitter:description"
-          content="Defi Bank is a dapp created for ethereum 101 course of cadena.dev"
+          content="Smoolos Club is a dapp created by vertsix.com"
         />
         <meta
           property="twitter:image"

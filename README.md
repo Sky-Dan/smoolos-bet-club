@@ -6,7 +6,7 @@
   </a>
 </p>
 
-> Defi Bank is a dapp created for ethereum 101 course
+> Smoolos Club is a dapp created by vertsix.com
 
 <a href="https://defibank.vercel.app/" target="_blank">
     <img alt="DefiBank: Landing" src="public/assets/LandingPage.png" />
@@ -27,6 +27,7 @@ npm run dev
 ```
 
 ## Tech
+
 - NextJS
 - React
 - TypeScript
@@ -40,5 +41,6 @@ npm run dev
 
 Give a ⭐️ if this project helped you!
 
-***
+---
+
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
