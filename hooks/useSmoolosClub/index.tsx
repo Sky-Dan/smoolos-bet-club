@@ -53,6 +53,30 @@ export const useSmoolosBetClub = () => {
     }
   };
 
+  const setWinner = async ({ side, game }: { side: string; game: string }) => {
+    if (!smoolosClub || !userAddress) return;
+
+    try {
+      const setWinner = await smoolosClub.setWinner(side, game);
+
+      toastSuccess({
+        msg: `side: ${side} WON`,
+      });
+
+      return setWinner;
+    } catch (error: any) {
+      console.log(error);
+
+      if (error?.data) {
+        toastError({ msg: error.data.message });
+      } else if (error.error?.data) {
+        toastError({ msg: error.error.data.message });
+      } else {
+        toastError({ msg: error.message });
+      }
+    }
+  };
+
   const toggleBet = async () => {
     if (!smoolosClub || !userAddress) return;
 
@@ -183,6 +207,7 @@ export const useSmoolosBetClub = () => {
     owner,
     toggleBet,
     bet,
+    setWinner,
     totalBucket,
     minBetAmount,
     getTotalBetsBySide,

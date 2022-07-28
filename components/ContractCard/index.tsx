@@ -32,7 +32,7 @@ export const ContractCard = forwardRef<HTMLDivElement, IContractCardProps>(
 
     const { address } = useWeb3();
 
-    const { owner, bet, toggleBet } = useSmoolosBetClub();
+    const { owner, bet, setWinner, toggleBet } = useSmoolosBetClub();
 
     const handleDepositAmount = (event: any) => {
       setBetAmount(event.target.value);
@@ -45,6 +45,11 @@ export const ContractCard = forwardRef<HTMLDivElement, IContractCardProps>(
     const handleBet = async () => {
       await bet({ amount: betAmount, game: currentGame, side: side });
     };
+
+    const handleSetSideWinner = async () => {
+      await setWinner({ game: currentGame, side: side });
+    };
+
     const handleToggleBet = async () => {
       await toggleBet();
     };
@@ -141,7 +146,10 @@ export const ContractCard = forwardRef<HTMLDivElement, IContractCardProps>(
                 placeholder="Game"
                 onChange={(e) => setGame(e.target.value)}
               /> */}
-              <button className="flex items-center justify-center col-span-3 gap-2 p-2 px-4 transition-all bg-purple-500 rounded-md hover:scale-105">
+              <button
+                className="flex items-center justify-center col-span-3 gap-2 p-2 px-4 transition-all bg-purple-500 rounded-md hover:scale-105"
+                onClick={handleSetSideWinner}
+              >
                 <span className="font-semibold">Set Side Winner</span>
                 {loading && (
                   <AiOutlineLoading3Quarters

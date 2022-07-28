@@ -19,7 +19,7 @@ const styles = {
 };
 
 const Home: NextPage = () => {
-  const { totalBucket, getTotalBetsBySide } = useSmoolosBetClub();
+  const { totalBucket } = useSmoolosBetClub();
   const { getBalanceOf, getOwnerOf, totalSupply, baseURI } = useSmoolosNFT();
 
   const { address } = useWeb3();
