@@ -37,18 +37,7 @@ export const ToolsSection = ({ nfts }: IToolsSection) => {
             );
           })}
         </div>
-      ) : (
-        <div
-          className="grid xs:grid-cols-1 xs:h-auto xs:gap-8 xs:py-4 h-[8rem] place-items-center bg-neutral-600/20 px-4"
-          style={{ height: '300px' }}
-        >
-          <AiOutlineLoading3Quarters
-            className="animate-spin"
-            size="8rem"
-            color="white"
-          />
-        </div>
-      )}
+      ) : null}
     </>
   );
 };
