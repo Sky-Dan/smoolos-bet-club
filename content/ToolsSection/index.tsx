@@ -20,7 +20,7 @@ export const ToolsSection = ({ nfts }: IToolsSection) => {
             return (
               <CustomLink
                 key={nft.edition}
-                href={`https://testnets.opensea.io/assets/mumbai/${process.env.NEXT_PUBLIC_SOMOOLOS_NFT_ADDRESS}/${nft.edition}`}
+                href={`https://opensea.io/assets/matic/${process.env.NEXT_PUBLIC_SOMOOLOS_NFT_ADDRESS}/${nft.edition}`}
                 className="flex items-center justify-center w-[100%] h-[100%] hover:bg-neutral-800 hover:scale-105 transition-all"
               >
                 <div>
