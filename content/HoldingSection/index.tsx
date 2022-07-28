@@ -14,21 +14,32 @@ export const HoldingSection = ({ totalBucket, game }: IHoldingSection) => {
   const [totalBetsA, setTotalBetsA] = useState(0);
   const [totalBetsB, setTotalBetsB] = useState(0);
   const [totalAmountA, setTotalAmountA] = useState(0);
-  const [totalAmountb, setTotalAmountB] = useState(0);
+  const [totalAmountB, setTotalAmountB] = useState(0);
   const { getTotalBetsBySide } = useSmoolosBetClub();
 
   const handlegetTotalBetsBySide = async (side: string) => {
-    const response = await getTotalBetsBySide({
+    const responseA = await getTotalBetsBySide({
       game,
-      side: side,
+      side: 'A',
     });
 
-    console.log(response);
+    const responseB = await getTotalBetsBySide({
+      game,
+      side: 'B',
+    });
+
+    if (responseA) {
+      setTotalBetsA(parseFloat(responseA[0]));
+      setTotalAmountA(parseFloat(ethers.utils.formatEther(responseA[1])));
+    }
+
+    if (responseB) {
+      setTotalBetsB(parseFloat(responseB[0]));
+      setTotalAmountB(parseFloat(ethers.utils.formatEther(responseB[1])));
+    }
   };
 
-  useEffect(() => {
-    handlegetTotalBetsBySide('A');
-  }, []);
+  handlegetTotalBetsBySide('B');
 
   return (
     <div
@@ -44,7 +55,7 @@ export const HoldingSection = ({ totalBucket, game }: IHoldingSection) => {
         <div className="mb-4">MANSAO</div>
         <div className="mb-4">
           TOTAL BETS{' '}
-          <span className="text-purple-500 display-4">{totalAmountA}</span>
+          <span className="text-purple-500 display-4">{totalBetsA}</span>
         </div>
         <div>
           TOTAL BUCKET{' '}
@@ -59,12 +70,12 @@ export const HoldingSection = ({ totalBucket, game }: IHoldingSection) => {
 
         <div className="mb-4">
           TOTAL BETS{' '}
-          <span className="text-purple-500 display-4">{totalAmountA}</span>
+          <span className="text-purple-500 display-4">{totalBetsB}</span>
         </div>
         <div>
           TOTAL BUCKET{' '}
           <span className="text-purple-500 display-4">
-            {totalAmountA} MATIC
+            {totalAmountB} MATIC
           </span>
         </div>
       </span>
