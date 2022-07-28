@@ -56,6 +56,8 @@ export const useSmoolosBetClub = () => {
   const setWinner = async ({ side, game }: { side: string; game: string }) => {
     if (!smoolosClub || !userAddress) return;
 
+    console.log(side, game);
+
     try {
       const setWinner = await smoolosClub.setWinner(side, game);
 
