@@ -27,7 +27,7 @@ export const useToast = () => {
     className,
     duration,
   }: IToast) => {
-    toast.error(msg, { position, style, className, duration });
+    toast.success(msg, { position, style, className, duration });
   };
 
   const toastWarning = ({

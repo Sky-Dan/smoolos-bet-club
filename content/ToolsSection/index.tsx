@@ -7,6 +7,8 @@ interface IToolsSection {
 }
 
 export const ToolsSection = ({ nfts }: IToolsSection) => {
+  // console.log('a');
+
   return (
     <>
       {nfts.length > 0 ? (
@@ -18,7 +20,7 @@ export const ToolsSection = ({ nfts }: IToolsSection) => {
             return (
               <CustomLink
                 key={nft.edition}
-                href={`https://opensea.io/assets/matic/0xa4132e3b9d88954bfdd47411f05a1c992703fc78/${nft.edition}`}
+                href={`https://testnets.opensea.io/assets/mumbai/${process.env.NEXT_PUBLIC_SOMOOLOS_NFT_ADDRESS}/${nft.edition}`}
                 className="flex items-center justify-center w-[100%] h-[100%] hover:bg-neutral-800 hover:scale-105 transition-all"
               >
                 <div>

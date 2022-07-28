@@ -1,11 +1,10 @@
 import { useWeb3 } from '@3rdweb/hooks';
 import axios from 'axios';
 import { ContractCard } from 'components/ContractCard';
-import { CoinSection } from 'content/CoinSection';
 import { HoldingSection } from 'content/HoldingSection';
 import { ToolsSection } from 'content/ToolsSection';
 
-import { useSmoolosClub } from 'hooks/useSmoolosClub';
+import { useSmoolosBetClub } from 'hooks/useSmoolosClub';
 import { useSmoolosNFT } from 'hooks/useSmoolosNFT';
 import type { NextPage } from 'next';
 import Head from 'next/head';
@@ -20,29 +19,40 @@ const styles = {
 };
 
 const Home: NextPage = () => {
-  const { balance, totalHolders } = useSmoolosClub();
+  const { totalBucket, getTotalBetsBySide } = useSmoolosBetClub();
   const { getBalanceOf, getOwnerOf, totalSupply, baseURI } = useSmoolosNFT();
 
   const { address } = useWeb3();
 
+  const configGames = [{ name: 'lol-1', label: 'LOL Game 1' }];
+
   const [balanceOf, setBalanceOf] = useState('0');
   const [nfts, setNfts] = useState<any[]>([]);
+  const [games, setGames] = useState<any[]>(configGames);
 
   const handleNfts = useCallback(async () => {
-    for (let i = 0; i < totalSupply; i++) {
-      const owner = await getOwnerOf(i);
+    if (address) {
+      setNfts([]);
+      for (let i = 1; i < totalSupply; i++) {
+        const owner = await getOwnerOf(i);
 
-      if (address === owner) {
-        const nftSettings = `https://gateway.pinata.cloud/${String(
-          baseURI
-        ).replace('://', '/')}${i}`;
+        if (address === owner) {
+          const nftSettings = `https://gateway.pinata.cloud/${String(
+            baseURI
+          ).replace('://', '/')}${i}.json`;
 
-        const nft = await axios.get(nftSettings);
+          const nft = await axios.get(nftSettings);
 
-        setNfts((oldArray) => [
-          ...oldArray,
-          { image: nft.data.image, edition: nft.data.edition },
-        ]);
+          setNfts((oldArray) => [
+            ...oldArray,
+            {
+              image: `https://gateway.pinata.cloud/${String(
+                nft.data.image
+              ).replace('://', '/')}`,
+              edition: nft.data.edition,
+            },
+          ]);
+        }
       }
     }
   }, [address, totalSupply]);
@@ -64,7 +74,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Smoolos Club</title>
+        <title>Smoolos Bet Club</title>
       </Head>
       <hr className="border-neutral-600/50" />
       <div className="flex flex-col gap-16">
@@ -81,18 +91,11 @@ const Home: NextPage = () => {
                 <span className="text-purple-500"> Smoolos</span>
               </div>
               <div>
-                <span className="text-purple-500">Club</span>
+                <span className="text-purple-500">Bet Club</span>
                 <span className="text-white"> Dapp</span>
               </div>
             </h1>
             <p className="text-gray-300">Explore the crypto world.</p>
-            {/* <button
-              className="flex items-center gap-2 p-2 px-4 transition-all bg-purple-500 rounded-md max-w-max hover:scale-105"
-              onClick={focusContractCard}
-            >
-              <span className="font-semibold">{'MINT NOW'}</span>
-              <BsArrowUpRight className="" />
-            </button> */}
             <a
               href="https://smoolos.netlify.app"
               target="_blank"
@@ -104,37 +107,12 @@ const Home: NextPage = () => {
             </a>
           </div>
           <div className="z-10 flex flex-col items-center gap-2">
-            <ContractCard styles={styles} totalBalance={balance} />
-            {/* <motion.div
-              className="absolute left-0 right-0 flex gap-24 mx-auto top-4"
-              variants={sideAnimationRightVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              {lastTransfers?.transfers?.map((transfer: any) => {
-                const isBankAddress = (address: string) => {
-                  return address === SOMOOLOS_CLUB_ADDRESS?.toLocaleLowerCase();
-                };
-
-                const sender = middleStringTruncate(
-                  isBankAddress(transfer.from) ? transfer.to : transfer.from,
-                  6,
-                  6
-                );
-                const amount = ethers.utils.formatEther(transfer.amount);
-                const operationType = isBankAddress(transfer.from)
-                  ? OperationType.Withdraw
-                  : OperationType.Deposit;
-                return (
-                  <TransactionCard
-                    key={transfer.id}
-                    address={sender}
-                    amount={amount}
-                    operationType={operationType}
-                  />
-                );
-              })}
-            </motion.div> */}
+            <ContractCard
+              styles={styles}
+              totalBalance={0}
+              game={games[0].name}
+              lagelGame={games[0].label}
+            />
           </div>
           <div className="absolute bottom-0 w-[100%] h-[25rem]">
             <Image
@@ -153,13 +131,21 @@ const Home: NextPage = () => {
 
         <section className="flex flex-col gap-8">
           <h2 className="text-3xl font-bold text-center text-white">
-            Smoolos Club Details
+            Smoolos Bet Club Details
           </h2>
-          <HoldingSection
-            totalHoldingMatic={balance}
-            totalHolders={totalHolders}
-            totalSupply={totalSupply}
-          />
+
+          {games.map((game) => {
+            return (
+              <HoldingSection
+                key={game.name}
+                totalBucket={totalBucket}
+                game={game.name}
+                lagelGame={game.label}
+                // getTotalBetsBySideA={getTotalBetsBySide}
+                // getTotalBetsBySideB={getTotalBetsBySide}
+              />
+            );
+          })}
         </section>
 
         <div className="flex items-center justify-center gap-6">
@@ -173,19 +159,6 @@ const Home: NextPage = () => {
             {"Your NFT's"}
           </h2>
           <ToolsSection nfts={nfts} />
-        </section>
-
-        <div className="flex items-center justify-center gap-6">
-          <hr className="w-40 border-neutral-600/50" />
-          <BsRecordCircle className="text-white" />
-          <hr className="w-40 border-neutral-600/50" />
-        </div>
-
-        <section className="flex flex-col gap-8">
-          <h2 className="text-3xl font-bold text-center text-white">
-            Smoolos Coin
-          </h2>
-          <CoinSection />
         </section>
       </div>
     </>

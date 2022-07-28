@@ -1,49 +1,45 @@
-import { SOMOOLOS_CLUB_ADDRESS } from 'config';
+import { useWeb3 } from '@3rdweb/hooks';
+import { SOMOOLOS_BET_CLUB_ADDRESS } from 'config';
 import { Contract, ethers } from 'ethers';
-import SmoolosClubContract from 'hardhat/artifacts/contracts/SmoolosClub.sol/SmoolosClub.json';
+import BettingClubContract from 'hardhat/artifacts/contracts/BettingClub.sol/BettingClub.json';
 import { useContract } from 'hooks/useContract';
 import { useToast } from 'hooks/useToast';
 import { useEffect, useState } from 'react';
 
-export const useSmoolosClub = () => {
+export const useSmoolosBetClub = () => {
   const { contract: smoolosClub } = useContract<Contract>({
-    contractAddress: SOMOOLOS_CLUB_ADDRESS,
-    contractJson: SmoolosClubContract,
+    contractAddress: SOMOOLOS_BET_CLUB_ADDRESS,
+    contractJson: BettingClubContract,
   });
 
-  const { toastError } = useToast();
+  const { toastError, toastSuccess } = useToast();
+  const { address: userAddress } = useWeb3();
 
-  const [totalHolders, setTotalHolders] = useState('0');
-  const [balance, setBalance] = useState('0');
   const [owner, setOnwer] = useState('');
+  const [totalBucket, setTotalBucket] = useState(0);
+  const [minBetAmount, setMinBetAmount] = useState(0);
 
-  const deposit = async (amount: string) => {
-    if (!smoolosClub) return;
+  const bet = async ({
+    amount,
+    side,
+    game,
+  }: {
+    amount: string;
+    side: string;
+    game: string;
+  }) => {
+    if (!smoolosClub || !userAddress) return;
 
     try {
-      const deposit = await smoolosClub.deposit({
-        value: ethers.utils.parseEther(amount),
+      const options = { value: ethers.utils.parseEther(amount) };
+
+      const bet = await smoolosClub.bet(side, game, options);
+
+      toastSuccess({
+        msg: `${parseFloat(amount)} BET successfully is side: ${side}`,
       });
-      return deposit;
-    } catch (error: any) {
-      console.log(error.data);
 
-      if (error?.data) {
-        toastError({ msg: error.data.message });
-      } else if (error.error?.data) {
-        toastError({ msg: error.error.data.message });
-      } else {
-        toastError({ msg: error.message });
-      }
-    }
-  };
-
-  const withdraw = async () => {
-    if (!smoolosClub) return;
-
-    try {
-      const withdraw = await smoolosClub.withdraw();
-      return withdraw;
+      return bet;
     } catch (error: any) {
       console.log(error);
 
@@ -57,8 +53,108 @@ export const useSmoolosClub = () => {
     }
   };
 
+  const toggleBet = async () => {
+    if (!smoolosClub || !userAddress) return;
+
+    try {
+      const toggleBet = await smoolosClub.toggleBet();
+
+      return toggleBet;
+    } catch (error) {
+      console.log(error);
+
+      if (error?.data) {
+        toastError({ msg: error.data.message });
+      } else if (error.error?.data) {
+        toastError({ msg: error.error.data.message });
+      } else {
+        toastError({ msg: error.message });
+      }
+    }
+  };
+
+  const getTotalBetsBySide = async ({
+    side,
+    game,
+  }: {
+    side: string;
+    game: string;
+  }) => {
+    if (!smoolosClub || !userAddress) return;
+
+    try {
+      const totalBetsBySide = await smoolosClub.getTotalBetsBySide(side, game);
+
+      // console.log(totalBetsBySide);
+
+      return totalBetsBySide;
+    } catch (error) {
+      console.log(error);
+
+      if (error?.data) {
+        toastError({ msg: error.data.message });
+      } else if (error.error?.data) {
+        toastError({ msg: error.error.data.message });
+      } else {
+        toastError({ msg: error.message });
+      }
+    }
+  };
+
+  const getTotalBucket = async () => {
+    if (!smoolosClub || !userAddress) return;
+
+    try {
+      const totalBucket = await smoolosClub.getBucket();
+
+      setTotalBucket(parseFloat(ethers.utils.formatEther(totalBucket)));
+    } catch (error: any) {
+      if (error?.data) {
+        toastError({ msg: error.data.message });
+      } else if (error.error?.data) {
+        toastError({ msg: error.error.data.message });
+      } else {
+        toastError({ msg: error.message });
+      }
+    }
+  };
+
+  useEffect(() => {
+    const handleGetBucket = async () => {
+      await getTotalBucket();
+    };
+
+    handleGetBucket();
+  }, [getTotalBucket]);
+
+  const getMinBetAmount = async () => {
+    if (!smoolosClub || !userAddress) return;
+
+    try {
+      const minBetAmount = await smoolosClub.minBetAmount();
+
+      setMinBetAmount(parseFloat(ethers.utils.formatEther(minBetAmount)));
+    } catch (error: any) {
+      if (error?.data) {
+        toastError({ msg: error.data.message });
+      } else if (error.error?.data) {
+        toastError({ msg: error.error.data.message });
+      } else {
+        toastError({ msg: error.message });
+      }
+    }
+  };
+
+  useEffect(() => {
+    const handleGetMinBetAmount = async () => {
+      await getMinBetAmount();
+    };
+
+    handleGetMinBetAmount();
+  }, [getMinBetAmount]);
+
   const getOwner = async () => {
-    if (!smoolosClub) return;
+    if (!smoolosClub || !userAddress) return;
 
     try {
       const owner = await smoolosClub.owner();
@@ -75,76 +171,6 @@ export const useSmoolosClub = () => {
     }
   };
 
-  const getBalance = async () => {
-    if (!smoolosClub) return;
-
-    try {
-      const balance = await smoolosClub.getBalance();
-
-      setBalance(ethers.utils.formatEther(balance));
-    } catch (error: any) {
-      if (error?.data) {
-        toastError({ msg: error.data.message });
-      } else if (error.error?.data) {
-        toastError({ msg: error.error.data.message });
-      } else {
-        toastError({ msg: error.message });
-      }
-    }
-  };
-
-  const getMyBalance = async (address: string) => {
-    if (!smoolosClub) return;
-
-    try {
-      const myBalance = await smoolosClub.balances(address);
-
-      return ethers.utils.formatEther(myBalance);
-    } catch (error: any) {
-      if (error?.data) {
-        toastError({ msg: error.data.message });
-      } else if (error.error?.data) {
-        toastError({ msg: error.error.data.message });
-      } else {
-        toastError({ msg: error.message });
-      }
-    }
-  };
-
-  const getTotalHolders = async () => {
-    if (!smoolosClub) return;
-
-    try {
-      const totalHolders = await smoolosClub.getTotalAccounts();
-
-      setTotalHolders(totalHolders.toNumber());
-    } catch (error: any) {
-      if (error?.data) {
-        toastError({ msg: error.data.message });
-      } else if (error.error?.data) {
-        toastError({ msg: error.error.data.message });
-      } else {
-        toastError({ msg: error.message });
-      }
-    }
-  };
-
-  useEffect(() => {
-    const handleGetBalance = async () => {
-      await getBalance();
-    };
-
-    handleGetBalance();
-  }, [getBalance]);
-
-  useEffect(() => {
-    const handleGetTotalHolders = async () => {
-      await getTotalHolders();
-    };
-
-    handleGetTotalHolders();
-  }, [getTotalHolders]);
-
   useEffect(() => {
     const handleGetOwners = async () => {
       await getOwner();
@@ -154,11 +180,11 @@ export const useSmoolosClub = () => {
   }, [getOwner]);
 
   return {
-    getMyBalance,
-    deposit,
-    withdraw,
-    totalHolders,
-    balance,
     owner,
+    toggleBet,
+    bet,
+    totalBucket,
+    minBetAmount,
+    getTotalBetsBySide,
   };
 };

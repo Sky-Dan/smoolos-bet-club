@@ -44,8 +44,6 @@ const check = () => {
     handleGetBalanceOf();
   }, [handleGetBalanceOf]);
 
-  console.log(ownerOfNFT);
-
   return <></>;
 };
 
