@@ -40,10 +40,9 @@ const Home: NextPage = () => {
           const nftSettings = `https://gateway.pinata.cloud/${String(
             baseURI
           ).replace('://', '/')}${i}`;
-          console.log(nftSettings);
 
           const nft = await axios.get(nftSettings);
-          console.log(nft);
+
           setNfts((oldArray) => [
             ...oldArray,
             {
@@ -55,8 +54,6 @@ const Home: NextPage = () => {
       }
     }
   }, [address, totalSupply]);
-
-  console.log(nfts);
 
   useEffect(() => {
     handleNfts();

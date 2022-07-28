@@ -23,50 +23,12 @@ export const HoldingSection = ({ totalBucket, game }: IHoldingSection) => {
       side: side,
     });
 
-    // console.log(response);
-
-    if (response && response.length > 0) {
-      console.log(response);
-
-      setTotalBetsA(response[0].toNumber());
-
-      console.log(response);
-    }
-
-    // console.log(response);
-
-    // console.log(
-    //   parseFloat(ethers.utils.formatEther(totalAmount)),
-    //   parseFloat(ethers.utils.formatEther(totalWinners))
-    // );
-
-    // setTotalA(parseFloat(ethers.utils.formatEther(res[0])) || 0);
+    console.log(response);
   };
 
   useEffect(() => {
     handlegetTotalBetsBySide('A');
   }, []);
-
-  // const handleTotal = async () => {
-  //   const [totalAmountA, totalWinnersA] = getTotalBetsBySideA({
-  //     game,
-  //     side,
-  //   });
-
-  //   const [totalAmountB, totalWinnersB] = getTotalBetsBySideB({
-  //     game,
-  //     side,
-  //   });
-
-  //   console.log(parseFloat(ethers.utils.formatEther(totalAmountA)));
-
-  //   return {
-  //     totalAmountA: parseFloat(ethers.utils.formatEther(totalAmountA)),
-  //     totalWinnersA: parseFloat(ethers.utils.formatEther(totalWinnersA)),
-  //   };
-  // };
-
-  // const {  } = await handleTotal();
 
   return (
     <div
