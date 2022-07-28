@@ -66,7 +66,7 @@ export const HoldingSection = ({ totalBucket, game }: IHoldingSection) => {
       </span>
 
       <span className="text-center text-white">
-        <div className="mb-4">MODAL</div>
+        <div className="mb-4">OS CAGÕES</div>
 
         <div className="mb-4">
           TOTAL BETS{' '}

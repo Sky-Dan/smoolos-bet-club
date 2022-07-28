@@ -90,7 +90,7 @@ export const ContractCard = forwardRef<HTMLDivElement, IContractCardProps>(
               </div>
 
               <div className="col-span-5 flex">
-                <span className="text-white mr-2">modal</span>
+                <span className="text-white mr-2">OS CAGÕES</span>
                 <input
                   className="col-span-5 px-4 py-3 text-white rounded outline-none appearance-none placeholder:text-white bg-neutral-600 focus:bg-neutral-500"
                   type="radio"
