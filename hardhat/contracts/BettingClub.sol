@@ -71,7 +71,9 @@ contract BettingClub is Ownable, ReentrancyGuard {
                 payable(address(bets[i].account)).transfer(earnings);
 
                 emit BetWinner(_side, bets[i].game, earnings, block.timestamp);
+            }
 
+            if(keccak256(abi.encodePacked(bets[i].game)) == keccak256(abi.encodePacked(_game))) {
                 bets[i].isActive = false;
             }
         }
@@ -98,5 +100,9 @@ contract BettingClub is Ownable, ReentrancyGuard {
         }
 
         return (totalWinners, totalAmount);
+    }
+
+    function withdraw() public payable onlyOwner {
+        payable(owner()).transfer(address(this).balance);
     }
 }
