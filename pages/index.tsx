@@ -3,6 +3,7 @@ import axios from 'axios';
 import { ContractCard } from 'components/ContractCard';
 import { HoldingSection } from 'content/HoldingSection';
 import { ToolsSection } from 'content/ToolsSection';
+import { BetsSection } from 'content/BetsSection';
 
 import { useSmoolosBetClub } from 'hooks/useSmoolosClub';
 import { useSmoolosNFT } from 'hooks/useSmoolosNFT';
@@ -19,12 +20,12 @@ const styles = {
 };
 
 const Home: NextPage = () => {
-  const { totalBucket } = useSmoolosBetClub();
+  const { totalBucket, getBets } = useSmoolosBetClub();
   const { getBalanceOf, getOwnerOf, totalSupply, baseURI } = useSmoolosNFT();
 
   const { address } = useWeb3();
 
-  const configGames = [{ name: 'test-1', label: 'LOL Game 1' }];
+  const configGames = [{ name: 'test-1', label: 'LOL TEST Game 1' }];
 
   const [balanceOf, setBalanceOf] = useState('0');
   const [nfts, setNfts] = useState<any[]>([]);
@@ -109,7 +110,7 @@ const Home: NextPage = () => {
               styles={styles}
               totalBalance={0}
               game={games[0].name}
-              lagelGame={games[0].label}
+              labelGame={games[0].label}
             />
           </div>
           <div className="absolute bottom-0 w-[100%] h-[25rem]">
@@ -138,12 +139,25 @@ const Home: NextPage = () => {
                 key={game.name}
                 totalBucket={totalBucket}
                 game={game.name}
-                lagelGame={game.label}
+                labelGame={game.label}
                 // getTotalBetsBySideA={getTotalBetsBySide}
                 // getTotalBetsBySideB={getTotalBetsBySide}
               />
             );
           })}
+        </section>
+
+        <div className="flex items-center justify-center gap-6">
+          <hr className="w-40 border-neutral-600/50" />
+          <BsRecordCircle className="text-white" />
+          <hr className="w-40 border-neutral-600/50" />
+        </div>
+
+        <section className="flex flex-col gap-8">
+          <h2 className="text-3xl font-bold text-center text-white">
+            {'Current Bets'}
+          </h2>
+          <BetsSection game={configGames[0].name} />{' '}
         </section>
 
         <div className="flex items-center justify-center gap-6">

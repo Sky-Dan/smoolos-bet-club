@@ -85,9 +85,16 @@ contract BettingClub is Ownable, ReentrancyGuard {
         minBetAmount = _value;
     }
 
-
     function getBucket() public view returns(uint) {
         return address(this).balance;
+    }
+
+    function getBetsArrayLength() public view returns(uint) {
+        return bets.length;
+    }
+
+    function getBets() public view returns(Bet[] memory) {
+        return bets;
     }
 
     function getTotalBetsBySide(string memory _side, string memory _game) public view returns(uint totalWinners, uint totalAmount) {
@@ -100,6 +107,14 @@ contract BettingClub is Ownable, ReentrancyGuard {
         }
 
         return (totalWinners, totalAmount);
+    }
+
+    function getOdd(string memory _side, string memory _game) public view returns(uint) {
+        uint totalBucket = getBucket();
+
+        (, uint totalAmount) = getTotalBetsBySide(_side, _game);
+
+        return totalBucket / (totalAmount / 1e18);
     }
 
     function withdraw() public payable onlyOwner {

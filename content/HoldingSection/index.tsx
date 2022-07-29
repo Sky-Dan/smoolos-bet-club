@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 import { useSmoolosBetClub } from 'hooks/useSmoolosClub';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import imageTempra from '../../images/tempra.jpg';
 
@@ -15,9 +15,11 @@ export const HoldingSection = ({ totalBucket, game }: IHoldingSection) => {
   const [totalBetsB, setTotalBetsB] = useState(0);
   const [totalAmountA, setTotalAmountA] = useState(0);
   const [totalAmountB, setTotalAmountB] = useState(0);
-  const { getTotalBetsBySide } = useSmoolosBetClub();
+  const [bets, setBets] = useState([]);
 
-  const handlegetTotalBetsBySide = async (side: string) => {
+  const { getTotalBetsBySide, getBets } = useSmoolosBetClub();
+
+  const handlegetTotalBetsBySide = async () => {
     const responseA = await getTotalBetsBySide({
       game,
       side: 'A',
@@ -39,12 +41,24 @@ export const HoldingSection = ({ totalBucket, game }: IHoldingSection) => {
     }
   };
 
-  handlegetTotalBetsBySide('B');
+  const handleBets = useCallback(async () => {
+    const bets = await getBets();
+
+    setBets(bets);
+  }, []);
+
+  handlegetTotalBetsBySide();
+
+  useEffect(() => {
+    handleBets();
+
+    console.log(bets);
+  }, [handleBets]);
 
   return (
     <div
       className="grid grid-cols-3 xs:grid-cols-1 xs:h-auto xs:gap-8 xs:py-4 h-[8rem] place-items-center bg-neutral-600/20 px-4"
-      style={{ height: '300px' }}
+      style={{ height: '400px' }}
     >
       <span className="text-center text-white">
         TOTAL BUCKET{' '}
@@ -66,7 +80,7 @@ export const HoldingSection = ({ totalBucket, game }: IHoldingSection) => {
       </span>
 
       <span className="text-center text-white">
-        <div className="mb-4">OS CAGÕES</div>
+        <div className="mb-4">AntiNFTS</div>
 
         <div className="mb-4">
           TOTAL BETS{' '}

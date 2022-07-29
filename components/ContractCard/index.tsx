@@ -1,5 +1,6 @@
 import { useWeb3 } from '@3rdweb/hooks';
 import { SOMOOLOS_BET_CLUB_ADDRESS } from 'config';
+import { ethers } from 'ethers';
 import { useSmoolosBetClub } from 'hooks/useSmoolosClub';
 import Image from 'next/image';
 import { forwardRef, useCallback, useEffect, useState } from 'react';
@@ -12,17 +13,19 @@ import imageTempra from '../../images/tempra.jpg';
 interface IContractCardProps {
   totalBalance: any;
   game: string;
-  lagelGame: string;
+  labelGame: string;
   styles?: any;
   ref?: any;
 }
 
 export const ContractCard = forwardRef<HTMLDivElement, IContractCardProps>(
-  ({ totalBalance, styles, game: currentGame, lagelGame }, ref) => {
+  ({ totalBalance, styles, game: currentGame, labelGame }, ref) => {
     const [betAmount, setBetAmount] = useState('1');
     const [loading, setLoading] = useState(false);
     const [sideWinner, setSideWinner] = useState('');
     const [side, setSide] = useState('A');
+    const [oddA, setOddA] = useState(0);
+    const [oddB, setOddB] = useState(0);
 
     // console.log(side);
 
@@ -32,7 +35,7 @@ export const ContractCard = forwardRef<HTMLDivElement, IContractCardProps>(
 
     const { address } = useWeb3();
 
-    const { owner, bet, setWinner, toggleBet } = useSmoolosBetClub();
+    const { owner, bet, setWinner, toggleBet, getOdd } = useSmoolosBetClub();
 
     const handleDepositAmount = (event: any) => {
       setBetAmount(event.target.value);
@@ -53,6 +56,21 @@ export const ContractCard = forwardRef<HTMLDivElement, IContractCardProps>(
     const handleToggleBet = async () => {
       await toggleBet();
     };
+
+    const handleOddA = async (side: string) => {
+      const odd = await getOdd({ side, game: currentGame });
+
+      setOddA(parseFloat(ethers.utils.formatEther(odd || 0)));
+    };
+
+    const handleOddB = async (side: string) => {
+      const odd = await getOdd({ side, game: currentGame });
+
+      setOddB(parseFloat(ethers.utils.formatEther(odd || 0)));
+    };
+
+    handleOddA('A');
+    handleOddB('B');
 
     // const handleWithdraw = (event: any) => {
     //   setWithdrawAmount(event.target.value);
@@ -84,7 +102,7 @@ export const ContractCard = forwardRef<HTMLDivElement, IContractCardProps>(
               <span className="text-white ">CONTRACT</span>
             </button>
           </CopyToClipboard> */}
-          <span className="text-white ">CURRENT GAME - {lagelGame}</span>
+          <span className="text-white ">CURRENT GAME - {labelGame}</span>
 
           <span className="text-white"></span>
         </div>
@@ -99,7 +117,7 @@ export const ContractCard = forwardRef<HTMLDivElement, IContractCardProps>(
                   className="text-white mr-2"
                   style={handleButtonStyle('A')}
                 >
-                  mansao
+                  {`mansao | ${oddA}`}
                 </span>
                 <input
                   className="col-span-5 px-4 py-3 text-white rounded outline-none appearance-none placeholder:text-white bg-neutral-600 focus:bg-neutral-500"
@@ -115,7 +133,7 @@ export const ContractCard = forwardRef<HTMLDivElement, IContractCardProps>(
                   className="text-white mr-2"
                   style={handleButtonStyle('B')}
                 >
-                  os cagões
+                  {`antiNFTS | ${oddB}`}
                 </span>
                 <input
                   className="col-span-5 px-4 py-3 text-white rounded outline-none appearance-none placeholder:text-white bg-neutral-600 focus:bg-neutral-500"

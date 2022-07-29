@@ -16,6 +16,7 @@ export const useSmoolosBetClub = () => {
   const { address: userAddress } = useWeb3();
 
   const [owner, setOnwer] = useState('');
+
   const [totalBucket, setTotalBucket] = useState(0);
   const [minBetAmount, setMinBetAmount] = useState(0);
 
@@ -145,6 +146,42 @@ export const useSmoolosBetClub = () => {
     }
   };
 
+  const getBets = async () => {
+    if (!smoolosClub || !userAddress) return;
+
+    try {
+      const bets = await smoolosClub.getBets();
+
+      return bets;
+    } catch (error: any) {
+      if (error?.data) {
+        toastError({ msg: error.data.message });
+      } else if (error.error?.data) {
+        toastError({ msg: error.error.data.message });
+      } else {
+        toastError({ msg: error.message });
+      }
+    }
+  };
+
+  const getOdd = async ({ side, game }: { side: string; game: string }) => {
+    if (!smoolosClub || !userAddress) return;
+
+    try {
+      const odd = await smoolosClub.getOdd(side, game);
+
+      return odd;
+    } catch (error: any) {
+      if (error?.data) {
+        toastError({ msg: error.data.message });
+      } else if (error.error?.data) {
+        toastError({ msg: error.error.data.message });
+      } else {
+        toastError({ msg: error.message });
+      }
+    }
+  };
+
   useEffect(() => {
     const handleGetBucket = async () => {
       await getTotalBucket();
@@ -209,9 +246,11 @@ export const useSmoolosBetClub = () => {
     owner,
     toggleBet,
     bet,
+    getOdd,
     setWinner,
     totalBucket,
     minBetAmount,
     getTotalBetsBySide,
+    getBets,
   };
 };
