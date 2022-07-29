@@ -56,7 +56,7 @@ export const HoldingSection = ({ totalBucket, game }: IHoldingSection) => {
       <span className="text-center text-white">
         <div className="mb-4">MANSAO</div>
         <div className="mb-4">
-          <Image width="150px" height="100px" src={imageTempra} />
+          <Image width="150px" height="100px" alt="mansao" src={imageTempra} />
         </div>
 
         <div className="mb-4">
@@ -74,7 +74,7 @@ export const HoldingSection = ({ totalBucket, game }: IHoldingSection) => {
       <span className="text-center text-white">
         <div className="mb-4">LIVEON</div>
         <div className="mb-4">
-          <Image width="150px" height="100px" src={imageLiveon} />
+          <Image width="150px" height="100px" alt="liveon" src={imageLiveon} />
         </div>
 
         <div className="mb-4">
