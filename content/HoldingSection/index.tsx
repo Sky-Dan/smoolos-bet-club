@@ -3,8 +3,8 @@ import { useSmoolosBetClub } from 'hooks/useSmoolosClub';
 import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 
-import imageLiveon from '../../images/liveon.jpg';
-import imageTempra from '../../images/tempra_branco.png';
+import imageLiveon from '../../public/assets/liveon.jpg';
+import imageTempra from '../../public/assets/tempra_branco.png';
 
 interface IHoldingSection {
   totalBucket: number;
