@@ -22,7 +22,10 @@ export default function Document() {
           property="og:description"
           content="Smoolos Club is a dapp created by skydan"
         />
-        {/* <meta property="og:image" content={image} /> */}
+        <meta
+          property="og:image"
+          content="https://smoolos-bet-club.netlify.app/assets/image.png"
+        />
       </Head>
       <body>
         <Main />

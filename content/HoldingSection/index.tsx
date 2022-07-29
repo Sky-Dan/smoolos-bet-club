@@ -56,7 +56,12 @@ export const HoldingSection = ({ totalBucket, game }: IHoldingSection) => {
       <span className="text-center text-white">
         <div className="mb-4">MANSAO</div>
         <div className="mb-4">
-          <Image width="200px" height="100px" alt="mansao" src={imageTempra} />
+          <Image
+            width="200px"
+            height="100px"
+            alt="mansao"
+            src="https://smoolos-bet-club.netlify.app/assets/tempra_branco.png"
+          />
         </div>
 
         <div className="mb-4">
@@ -74,7 +79,12 @@ export const HoldingSection = ({ totalBucket, game }: IHoldingSection) => {
       <span className="text-center text-white">
         <div className="mb-4">LIVEON</div>
         <div className="mb-4">
-          <Image width="150px" height="100px" alt="liveon" src={imageLiveon} />
+          <Image
+            width="150px"
+            height="100px"
+            alt="liveon"
+            src="https://smoolos-bet-club.netlify.app/assets/liveon.jpg"
+          />
         </div>
 
         <div className="mb-4">
