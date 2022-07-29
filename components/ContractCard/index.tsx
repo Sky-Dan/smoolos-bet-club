@@ -47,7 +47,7 @@ export const ContractCard = forwardRef<HTMLDivElement, IContractCardProps>(
     };
 
     const handleSetSideWinner = async () => {
-      await setWinner({ game: currentGame, side: side });
+      await setWinner({ game: currentGame, side: sideWinner });
     };
 
     const handleToggleBet = async () => {
@@ -57,6 +57,17 @@ export const ContractCard = forwardRef<HTMLDivElement, IContractCardProps>(
     // const handleWithdraw = (event: any) => {
     //   setWithdrawAmount(event.target.value);
     // };
+
+    const handleButtonStyle = useCallback(
+      (sideChecked: string) => {
+        return {
+          padding: '4px',
+          borderRadius: '5px',
+          border: `${side === sideChecked ? '1px solid #A855F7' : 'none'}`,
+        };
+      },
+      [side]
+    );
 
     return (
       <div
@@ -84,10 +95,15 @@ export const ContractCard = forwardRef<HTMLDivElement, IContractCardProps>(
           <div className="grid grid-cols-5 gap-4">
             <div className="col-span-5 flex justify-between">
               <div className="col-span-5 flex">
-                <span className="text-white mr-2">mansao</span>
+                <span
+                  className="text-white mr-2"
+                  style={handleButtonStyle('A')}
+                >
+                  mansao
+                </span>
                 <input
                   className="col-span-5 px-4 py-3 text-white rounded outline-none appearance-none placeholder:text-white bg-neutral-600 focus:bg-neutral-500"
-                  type="radio"
+                  type="checkbox"
                   onChange={handleSide}
                   value="A"
                   defaultChecked
@@ -95,10 +111,15 @@ export const ContractCard = forwardRef<HTMLDivElement, IContractCardProps>(
               </div>
 
               <div className="col-span-5 flex">
-                <span className="text-white mr-2">OS CAGÕES</span>
+                <span
+                  className="text-white mr-2"
+                  style={handleButtonStyle('B')}
+                >
+                  os cagões
+                </span>
                 <input
                   className="col-span-5 px-4 py-3 text-white rounded outline-none appearance-none placeholder:text-white bg-neutral-600 focus:bg-neutral-500"
-                  type="radio"
+                  type="checkbox"
                   onChange={handleSide}
                   value="B"
                 />
