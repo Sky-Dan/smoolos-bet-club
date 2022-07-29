@@ -4,26 +4,12 @@ import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 import { middleStringTruncate } from 'utils/middleStringTruncate';
 
-import imageTempra from '../../images/tempra.jpg';
-
 interface IHoldingSection {
   game: string;
 }
 
 export const BetsSection = ({ game }: IHoldingSection) => {
-  const { getBets } = useSmoolosBetClub();
-
-  const [bets, setBets] = useState<any>([]);
-
-  const handleBets = useCallback(async () => {
-    const bets = await getBets();
-
-    setBets(bets);
-  }, [getBets]);
-
-  handleBets();
-
-  // console.log(bets);
+  const { bets } = useSmoolosBetClub();
 
   return (
     <div
@@ -40,7 +26,7 @@ export const BetsSection = ({ game }: IHoldingSection) => {
             >
               <span>ACCOUNT: {middleStringTruncate(bet[0], 6, 6)}</span>
               {' | '}
-              <span>SIDE: {bet[1] === 'A' ? 'mansao' : 'antiNFTS'}</span>
+              <span>TEAM: {bet[1] === 'A' ? 'mansao' : 'liveon'}</span>
               {' | '}
               <span>AMOUNT: {ethers.utils.formatEther(bet[3] || 0)}</span>
             </div>

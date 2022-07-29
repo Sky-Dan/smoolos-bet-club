@@ -19,6 +19,7 @@ export const useSmoolosBetClub = () => {
 
   const [totalBucket, setTotalBucket] = useState(0);
   const [minBetAmount, setMinBetAmount] = useState(0);
+  const [bets, setBets] = useState([]);
 
   const bet = async ({
     amount,
@@ -152,7 +153,7 @@ export const useSmoolosBetClub = () => {
     try {
       const bets = await smoolosClub.getBets();
 
-      return bets;
+      return bets || [];
     } catch (error: any) {
       if (error?.data) {
         toastError({ msg: error.data.message });
@@ -163,6 +164,16 @@ export const useSmoolosBetClub = () => {
       }
     }
   };
+
+  useEffect(() => {
+    const handleGetBets = async () => {
+      const res = await getBets();
+
+      setBets(res || []);
+    };
+
+    handleGetBets();
+  }, [getBets]);
 
   const getOdd = async ({ side, game }: { side: string; game: string }) => {
     if (!smoolosClub || !userAddress) return;
@@ -246,11 +257,11 @@ export const useSmoolosBetClub = () => {
     owner,
     toggleBet,
     bet,
+    bets,
     getOdd,
     setWinner,
     totalBucket,
     minBetAmount,
     getTotalBetsBySide,
-    getBets,
   };
 };

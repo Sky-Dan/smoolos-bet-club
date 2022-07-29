@@ -9,7 +9,6 @@ import toast from 'react-hot-toast';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { FiMinusSquare, FiPlusSquare } from 'react-icons/fi';
 
-import imageTempra from '../../images/tempra.jpg';
 interface IContractCardProps {
   totalBalance: any;
   game: string;
@@ -111,13 +110,13 @@ export const ContractCard = forwardRef<HTMLDivElement, IContractCardProps>(
             Bet
           </label>
           <div className="grid grid-cols-5 gap-4">
-            <div className="col-span-5 flex justify-between">
+            <div className="col-span-5 xs:col-span-5 flex justify-between">
               <div className="col-span-5 flex">
                 <span
                   className="text-white mr-2"
                   style={handleButtonStyle('A')}
                 >
-                  {`mansao | ${oddA}`}
+                  {`mansao | odd ${oddA}`}
                 </span>
                 <input
                   className="col-span-5 px-4 py-3 text-white rounded outline-none appearance-none placeholder:text-white bg-neutral-600 focus:bg-neutral-500"
@@ -133,7 +132,7 @@ export const ContractCard = forwardRef<HTMLDivElement, IContractCardProps>(
                   className="text-white mr-2"
                   style={handleButtonStyle('B')}
                 >
-                  {`antiNFTS | ${oddB}`}
+                  {`liveon | odd ${oddB}`}
                 </span>
                 <input
                   className="col-span-5 px-4 py-3 text-white rounded outline-none appearance-none placeholder:text-white bg-neutral-600 focus:bg-neutral-500"
