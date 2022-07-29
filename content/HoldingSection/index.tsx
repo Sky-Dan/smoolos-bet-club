@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 
 import imageLiveon from '../../images/liveon.jpg';
-import imageTempra from '../../images/tempra.gif';
+import imageTempra from '../../images/tempra_branco.png';
 
 interface IHoldingSection {
   totalBucket: number;
@@ -56,7 +56,7 @@ export const HoldingSection = ({ totalBucket, game }: IHoldingSection) => {
       <span className="text-center text-white">
         <div className="mb-4">MANSAO</div>
         <div className="mb-4">
-          <Image width="150px" height="100px" alt="mansao" src={imageTempra} />
+          <Image width="200px" height="100px" alt="mansao" src={imageTempra} />
         </div>
 
         <div className="mb-4">
