@@ -25,7 +25,7 @@ const Home: NextPage = () => {
 
   const { address } = useWeb3();
 
-  const configGames = [{ name: 'cs-1', label: 'CS Game 1' }];
+  const configGames = [{ name: 'cs-2', label: 'CS Game 2' }];
 
   const [balanceOf, setBalanceOf] = useState('0');
   const [nfts, setNfts] = useState<any[]>([]);
