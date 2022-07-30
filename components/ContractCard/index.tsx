@@ -59,17 +59,24 @@ export const ContractCard = forwardRef<HTMLDivElement, IContractCardProps>(
     const handleOddA = async (side: string) => {
       const odd = await getOdd({ side, game: currentGame });
 
-      setOddA(parseFloat(ethers.utils.formatEther(odd || 0)));
+      console.log(odd);
+
+      if (odd) {
+        setOddA(parseFloat(ethers.utils.formatEther(odd || 0)));
+      }
     };
 
     const handleOddB = async (side: string) => {
       const odd = await getOdd({ side, game: currentGame });
-
-      setOddB(parseFloat(ethers.utils.formatEther(odd || 0)));
+      if (odd) {
+        setOddB(parseFloat(ethers.utils.formatEther(odd || 0)));
+      }
     };
 
-    handleOddA('A');
-    handleOddB('B');
+    useEffect(() => {
+      handleOddA('A');
+      handleOddB('B');
+    }, []);
 
     // const handleWithdraw = (event: any) => {
     //   setWithdrawAmount(event.target.value);
